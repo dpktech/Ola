@@ -1,4 +1,53 @@
 (function(){
+  return olaApi = {
+    randomDecimal: function(){
+      return (Math.random() * (0.120 - 0.0200) + 0.0200).toFixed(5)/100;
+    },
+    getRandomLatLang: function(lat, lang, map, a){
+      var randomDecimal = olaApi.randomDecimal(),
+          newLat = lat + (a ? randomDecimal: -(randomDecimal)),
+          newLang = lang + (a ? -(randomDecimal): randomDecimal),
+          arr = ['auto', 'sedan', 'prime', 'mini'],
+          key = Math.round(Math.random()*4),
+          randomCategory = arr[key];
+      olaApi.locationOfCab[key] = {
+        lat: newLat,
+        lang: newLang,
+        eta: key + 5 +" mins",
+        id: Math.round(Math.random()*4000000000) + 1,
+        category: randomCategory
+      };
+
+      setTimeout(function(){
+        var obj = {lat: map.getCenter().lat(), lang: map.getCenter().lng()};
+        if (olaApi.locationOfCabMap) {
+          $.each(olaApi.locationOfCabMap, function(mark, marker){
+            if (marker) {
+              marker.setMap(null);
+            }
+          });
+          delete(olaApi.locationOfCabMap[key]);
+        }
+
+        for (var i = 0; i < olaApi.locationOfCab.length; i++) {
+          var locations = olaApi.locationOfCab[i];
+          if (typeof locations !== 'undefined') {
+            olaApi.locationOfCabMap[i] = new google.maps.Marker({
+              position: new google.maps.LatLng(locations.lat, locations.lang),
+              map: map,
+              icon: 'file:///android_asset/assets/img/'+locations.category+'.png',
+            });
+          }
+        }
+        olaApi.getRandomLatLang(obj.lat, obj.lang, map, !a);
+      }, key + 5000);
+    },
+    locationOfCab: [],
+    locationOfCabMap: []
+  }
+})();
+
+(function(){
   return ola = {
     initializeMap: function() {
       ola.element.style.height = window.innerHeight - 51;
@@ -51,18 +100,5 @@ $(document).ready(function(){
    $(".navbar-btn.settings").bind('click', function(event){
      event.preventDefault();
      $("#settings-modal").modal("show");
-   });
-   $(".modal .signin").bind('click', function(event){
-     event.preventDefault();
-     var resp = Android.login();
-     
-     Android.showToast("Welcome "+JSON.parse(resp).name);
-     $("#settings-modal").modal("hide");
-     $(".modal .linkup").html( '<div class="checkbox"><label class="text-success"><h3>'+JSON.parse(resp).name+'</h3></label>');
-   
-   });
-   $(".modal .signup").bind('click', function(event){
-     event.preventDefault();
-     $("#settings-modal").modal("hide");
    });
 });
