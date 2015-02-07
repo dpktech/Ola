@@ -3,6 +3,9 @@ package com.example.webview;
 
 
 
+import java.io.InputStream;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -13,21 +16,28 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.webkit.GeolocationPermissions;
+import android.webkit.GeolocationPermissions.Callback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 
-public class MainActivity extends Activity implements OnCancelListener,
-OnDismissListener{
+@SuppressLint("SetJavaScriptEnabled") public class MainActivity extends Activity implements OnCancelListener,
+OnDismissListener,GeolocationPermissions.Callback{
 	private WebView webView;
 	private ProgressDialog progressBar; 
 	private boolean isRecieveError;
-	public static String web_url = "http://www.google.com";
+	public static String web_url = "http://www.olacabs.com";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         webView = (WebView) findViewById(R.id.webView);
+        
+        
 
 		// if (RuntimeValues.checkNetworkConnectivity(Web_view.this)) {
 		// loadWebView();
@@ -45,11 +55,36 @@ OnDismissListener{
 		webView.setKeepScreenOn(true);
 		webView.setWebViewClient(new AppWebViewClients());
 		webView.getSettings().setJavaScriptEnabled(true);
+		webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+		webView.getSettings().setGeolocationEnabled(true);
+		//GeolocationPermissions geo = new GeolocationPermissions();
+		GeoClient geoClient = new GeoClient();
+		webView.setWebChromeClient(geoClient);
+		String origin ="";
+		geoClient.onGeolocationPermissionsShowPrompt(origin, this);
 		webView.clearCache(true);
+		
 		try {
-			webView.loadUrl(web_url);
+			//String dataUrl = "file:///android_asset/index.html";
+			InputStream is = getAssets().open("index.html");
+			int size = is.available();
+
+			byte[] buffer = new byte[size];
+			is.read(buffer);
+			is.close();
+
+			String data = new String(buffer);
+			webView.loadDataWithBaseURL(web_url, data, "text/html", "UTF-8", null);
 		} catch (Exception e) {
 			Log.e("webView : ", "" + e);
+		}
+	}
+	
+	final class GeoClient extends WebChromeClient{
+		@Override
+		public void onGeolocationPermissionsShowPrompt(String origin, Callback callback){
+			super.onGeolocationPermissionsShowPrompt(origin, callback);
+			callback.invoke(origin, true, false);
 		}
 	}
     
@@ -94,6 +129,7 @@ private ProgressDialog progress() {
 	progressBar.setOnDismissListener(this);
 	return progressBar;
 }
+
 
 private class AppWebViewClients extends WebViewClient {
 
@@ -192,4 +228,11 @@ public void onDismiss(DialogInterface dialog) {
         }
         return super.onOptionsItemSelected(item);
     }
+
+	@Override
+	public void invoke(String origin, boolean allow, boolean retain) {
+		// TODO Auto-generated method stub
+		
+	}
 }
+

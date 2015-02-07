@@ -25,7 +25,7 @@ body {
 }
 
 .navbar-brand {
-  background-image: url("../img/android_logo.png");
+  background-image: url("file:///android_asset/assets/img/android_logo.png");
   background-repeat: no-repeat;
   background-color: transparent;
   background-position: -2px 4px;

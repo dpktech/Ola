@@ -1,6 +1,8 @@
 (function(){
+ console.log("alert....");
   return ola = {
     initializeMap: function() {
+      
       var element = document.getElementById('map-canvas');
       element.style.height = window.innerHeight - 51;
       element.style.width = window.innerWidth;
@@ -18,8 +20,10 @@
       };
       var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
       if (navigator.geolocation) {
+      
         navigator.geolocation.getCurrentPosition(function(position) {
           var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+         console.log("calling...");
           var marker = new google.maps.Marker({
             position: pos,
             map: map,
@@ -42,7 +46,7 @@
       } else {
         var content = 'Error: Your browser doesn\'t support geolocation.';
       }
-      alert(content);
+      console.log(content);
     }
   };
 })();
