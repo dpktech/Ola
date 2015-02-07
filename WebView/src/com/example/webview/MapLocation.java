@@ -16,12 +16,14 @@ import android.content.DialogInterface.OnDismissListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.webkit.GeolocationPermissions;
 import android.webkit.GeolocationPermissions.Callback;
@@ -30,6 +32,8 @@ import android.webkit.WebIconDatabase;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.TextView;
 
 
 @SuppressLint("SetJavaScriptEnabled") public class MapLocation extends Activity implements OnCancelListener,
@@ -52,9 +56,41 @@ OnDismissListener,GeolocationPermissions.Callback{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         webView = (WebView) findViewById(R.id.webView);
+       final TextView mTextField = (TextView) findViewById(R.id.textView1);
         locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
         isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         
+        Button btn = (Button) findViewById(R.id.button1);
+        btn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent home = new Intent(MapLocation.this, VoiceRecognition.class);
+				startActivity(home);
+				
+			}
+		});
+        
+        Button btn2 = (Button) findViewById(R.id.button2);
+        btn2.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				new CountDownTimer(30000, 1000) {
+
+				     public void onTick(long millisUntilFinished) {
+				         mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
+				     }
+
+				     public void onFinish() {
+				         mTextField.setText("done!");
+				     }
+				  }.start();
+					
+					
+				
+			}
+		});
 
 		// if (RuntimeValues.checkNetworkConnectivity(Web_view.this)) {
 		// loadWebView();

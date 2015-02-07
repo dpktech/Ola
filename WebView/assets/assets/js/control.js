@@ -52,7 +52,6 @@
     initializeMap: function() {
       ola.element.style.height = window.innerHeight - 51;
       ola.element.style.width = window.innerWidth;
-
       var mapOptions = {
         zoom: 17,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -64,10 +63,12 @@
         scaleControl: false,
         panControl: false
       };
+      
       var map = new google.maps.Map(ola.element, mapOptions);
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
           var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+          
           var marker = new google.maps.Marker({
             position: pos,
             map: map,
