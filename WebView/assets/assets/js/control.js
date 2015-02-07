@@ -1,5 +1,6 @@
 (function(){
  console.log("alert....");
+ Android.showToast("Hhhhhhhhhhhs");
   return ola = {
     initializeMap: function() {
       ola.element.style.height = window.innerHeight - 51;

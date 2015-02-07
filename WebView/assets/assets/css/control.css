@@ -1,9 +1,9 @@
 * {
   -webkit-font-smoothing: antialiased;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
-  -webkit-transition: all 0.4s ease 0s;
+  /*-webkit-transition: all 0.4s ease 0s;
   -moz-transition: all 0.4s ease 0s;
-  transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;*/
 }
 html { height: 100% }
 #map-canvas {
