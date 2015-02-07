@@ -1,5 +1,6 @@
 (function(){
  console.log("alert....");
+ Android.showToast("Hii");
   return ola = {
     initializeMap: function() {
       ola.element.style.height = window.innerHeight - 51;
@@ -50,5 +51,19 @@ $(document).ready(function(){
    $(".navbar-btn.settings").bind('click', function(event){
      event.preventDefault();
      $("#settings-modal").modal("show");
+   });
+   $(".modal .signin").bind('click', function(event){
+     event.preventDefault();
+     var resp = Android.login();
+     
+     Android.showToast("Welcome "+JSON.parse(resp).name);
+     $("#settings-modal").modal("hide");
+     $(".modal .linkup").html( '<div class="checkbox"><label class="text-success"><h3>'+JSON.parse(resp).name+'</h3></label>');
+   
+   });
+   $(".modal .signup").bind('click', function(event){
+     event.preventDefault();
+     $("#settings-modal").modal("hide");
+     
    });
 });
