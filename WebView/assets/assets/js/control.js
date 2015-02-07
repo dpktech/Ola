@@ -1,6 +1,5 @@
 (function(){
  console.log("alert....");
- Android.showToast("Hhhhhhhhhhhs");
   return ola = {
     initializeMap: function() {
       ola.element.style.height = window.innerHeight - 51;
@@ -40,7 +39,7 @@
     },
     handleNoGeolocation: function (errorFlag) {
       var content =  (errorFlag)? 'The Geolocation service failed. Please Enable location service.' : 'Error: Your browser doesn\'t support geolocation.';
-      ola.element.innerHTML('<h1 style="margin-top: 15%;"><center>'+content+'</center></h1>');
+      Android.showToast(content);
     },
     element: document.getElementById('map-canvas')
   };
@@ -48,5 +47,8 @@
 google.maps.event.addDomListener(window, 'load', ola.initializeMap);
 
 $(document).ready(function(){
-
+   $(".navbar-btn.settings").bind('click', function(event){
+     event.preventDefault();
+     $("#settings-modal").modal("show");
+   });
 });
