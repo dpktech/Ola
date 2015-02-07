@@ -35,8 +35,15 @@ body {
   background-color: #fff;
 }
 
-.nav >li > .navbar-btn.open {
+.nav >li.open > .navbar-btn {
   background: #DCDC1A;
+  box-shadow: none;
+}
+
+.nav > li > .category {
+  width: 80px;
+  padding: 7px 5px 0;
+  box-shadow: none;
 }
 
 .navbar-brand {

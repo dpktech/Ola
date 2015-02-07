@@ -16,8 +16,14 @@
         <div class="navbar-header">
           <span class="navbar-brand col-xs-6"></span>
           <ul class="nav">
-            <li class="col-xs-2 col-xs-offset-1">
-              <a class="btn btn-default navbar-btn category"></a>
+            <li class="col-xs-3 dropdown">
+              <a data-target="#" class="btn btn-default navbar-btn category dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">Category <span class="caret"></span></a>
+              <ul role="menu" class="dropdown-menu" id="menu1" style="min-width:100px">
+                 <li role="presentation"><a tabindex="-1" value='auto' role="menuitem">Auto</a></li>
+                 <li role="presentation"><a tabindex="-1" value='mini' role="menuitem">Mini</a></li>
+                 <li role="presentation"><a tabindex="-1" value='sedan' role="menuitem">Sedan</a></li>
+                 <li role="presentation"><a tabindex="-1" value='prime' role="menuitem">Prime</a></li>
+              </ul>
             </li>
             <li class="col-xs-2">
               <a class="btn btn-default navbar-btn settings"></a>
@@ -44,7 +50,7 @@
             <h4 class="modal-title">Settings</h4>
           </div>
           <div class="modal-body">
-            <form class="form-horizontal">
+            <form class="form-horizontal" onsubmit="return false;">
               <div class="form-group linkup">
                 <button class="btn btn-success col-xs-4 col-xs-offset-1 signin">Signin</button>
                 <button class="btn btn-default col-xs-4 col-xs-offset-2 signup">Signup</button>
