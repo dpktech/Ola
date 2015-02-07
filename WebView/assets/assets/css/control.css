@@ -1,0 +1,141 @@
+* {
+  -webkit-font-smoothing: antialiased;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+  -webkit-transition: all 0.4s ease 0s;
+  -moz-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+html { height: 100% }
+#map-canvas {
+  position: absolute;
+  left: 0;
+  top: 51px;
+  bottom: -20px;
+  right: -1px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-brand {
+  background-image: url("../img/android_logo.png");
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-position: -2px 4px;
+  padding: 0px 60px;
+  background-size: 92px 42px;
+}
+a {
+  color: #33AAAA;
+}
+
+a:focus {
+  text-decoration: none;
+}
+
+a:hover, a:active, a:visited {
+  color: #33CCAA;
+  text-decoration: none;
+}
+
+.hidden {
+  display: none;
+}
+
+
+/* Desktop large
+ * ------------------------- */
+@media (min-width: 1200px) {
+  body{
+    padding-top: 75px;
+  }
+}
+/* Desktop
+ * ------------------------- */
+@media (max-width: 980px) {
+
+  /* Unfloat brand */
+  body > .navbar-fixed-top .brand {
+    float: left;
+    margin-left: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+/* Tablet to desktop
+ * ------------------------- */
+@media (min-width: 768px) and (max-width: 980px) {
+  /* Remove any padding from the body */
+  .navbar-brand {
+    margin-left: 10px!important;
+  }
+}
+
+/* Tablet
+ * ------------------------- */
+@media (max-width: 767px) {
+  /* Remove any padding from the body */
+  .navbar-brand {
+    margin-left: 0px!important;
+  }
+
+  /* Unfloat the back to top link in footer */
+  .footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .footer p {
+    margin-bottom: 9px;
+  }
+}
+
+/* Landscape phones
+ * ------------------------- */
+@media (max-width: 480px) {
+  /* Remove padding above jumbotron */
+  .navbar-brand {
+    font-size: 16px!important;
+    margin-left: 20px!important;
+  }
+
+  /* Change up some type stuff */
+  h2 small {
+    display: block;
+  }
+
+  /* Do our best to make tables work in narrow viewports */
+  table code {
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+
+  /* Modal example */
+  .modal {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+  }
+
+  /* Tighten up footer */
+  .footer {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  /* Unfloat the back to top in footer to prevent odd text wrapping */
+  .footer .pull-right {
+    float: none;
+  }
+}
