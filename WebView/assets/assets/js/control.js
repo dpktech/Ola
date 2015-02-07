@@ -1,6 +1,4 @@
 (function(){
- console.log("alert....");
- Android.showToast("Hii");
   return ola = {
     initializeMap: function() {
       ola.element.style.height = window.innerHeight - 51;
@@ -30,6 +28,7 @@
           });
           marker.bindTo('position', map, 'center');
           map.setCenter(pos);
+          olaApi.getRandomLatLang(position.coords.latitude, position.coords.longitude, map, true);
         }, function() {
           ola.handleNoGeolocation(true);
         });
@@ -40,12 +39,13 @@
     },
     handleNoGeolocation: function (errorFlag) {
       var content =  (errorFlag)? 'The Geolocation service failed. Please Enable location service.' : 'Error: Your browser doesn\'t support geolocation.';
-      Android.showToast(content);
+      ola.element.innerHTML('<h1 style="margin-top: 15%;"><center>'+content+'</center></h1>');
     },
     element: document.getElementById('map-canvas')
   };
 })();
 google.maps.event.addDomListener(window, 'load', ola.initializeMap);
+
 
 $(document).ready(function(){
    $(".navbar-btn.settings").bind('click', function(event){
@@ -64,6 +64,5 @@ $(document).ready(function(){
    $(".modal .signup").bind('click', function(event){
      event.preventDefault();
      $("#settings-modal").modal("hide");
-     
    });
 });
