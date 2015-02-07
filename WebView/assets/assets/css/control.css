@@ -9,7 +9,7 @@ html { height: 100% }
 #map-canvas {
   position: absolute;
   left: 0;
-  top: 51px;
+  top: 0px;
   bottom: -20px;
   right: -1px;
   overflow: hidden;
@@ -23,6 +23,21 @@ body {
   margin: 0;
   padding: 0;
 }
+.nav >li > .navbar-btn.settings {
+  background-image:url('file:///android_asset/assets/img/settings.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 28px 28px;
+}
+.nav >li > .navbar-btn {
+  height: 36px;
+  width: 42px;
+  background-color: #fff;
+}
+
+.nav >li > .navbar-btn.open {
+  background: #DCDC1A;
+}
 
 .navbar-brand {
   background-image: url("file:///android_asset/assets/img/android_logo.png");
@@ -30,7 +45,7 @@ body {
   background-color: transparent;
   background-position: -2px 4px;
   padding: 0px 60px;
-  background-size: 92px 42px;
+  background-size: 100px 40px;
 }
 a {
   color: #33AAAA;
@@ -49,6 +64,10 @@ a:hover, a:active, a:visited {
   display: none;
 }
 
+.navbar-default {
+  background: transparent;
+  border: 1px solid transparent;
+}
 
 /* Desktop large
  * ------------------------- */

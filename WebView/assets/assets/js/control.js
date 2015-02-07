@@ -2,10 +2,8 @@
  console.log("alert....");
   return ola = {
     initializeMap: function() {
-      
-      var element = document.getElementById('map-canvas');
-      element.style.height = window.innerHeight - 51;
-      element.style.width = window.innerWidth;
+      ola.element.style.height = window.innerHeight - 51;
+      ola.element.style.width = window.innerWidth;
 
       var mapOptions = {
         zoom: 17,
@@ -18,36 +16,32 @@
         scaleControl: false,
         panControl: false
       };
-      var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+      var map = new google.maps.Map(ola.element, mapOptions);
       if (navigator.geolocation) {
-      
         navigator.geolocation.getCurrentPosition(function(position) {
           var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-         console.log("calling...");
           var marker = new google.maps.Marker({
             position: pos,
             map: map,
             draggable: false,
+            icon: 'file:///android_asset/assets/img/map_marker.png',
             animation: google.maps.Animation.DROP
           });
           marker.bindTo('position', map, 'center');
           map.setCenter(pos);
         }, function() {
-          this.handleNoGeolocation(true);
+          ola.handleNoGeolocation(true);
         });
       } else {
         // Browser doesn't support Geolocation
-        this.handleNoGeolocation(false);
+        ola.handleNoGeolocation(false);
       }
     },
     handleNoGeolocation: function (errorFlag) {
-      if (errorFlag) {
-        var content = 'Error: The Geolocation service failed.';
-      } else {
-        var content = 'Error: Your browser doesn\'t support geolocation.';
-      }
-      console.log(content);
-    }
+      var content =  (errorFlag)? 'The Geolocation service failed. Please Enable location service.' : 'Error: Your browser doesn\'t support geolocation.';
+      ola.element.innerHTML('<h1 style="margin-top: 15%;"><center>'+content+'</center></h1>');
+    },
+    element: document.getElementById('map-canvas')
   };
 })();
 google.maps.event.addDomListener(window, 'load', ola.initializeMap);
