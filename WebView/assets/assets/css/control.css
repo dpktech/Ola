@@ -24,13 +24,6 @@ body {
   padding: 0;
 }
 .nav .btn-default {
-  background: -moz-linear-gradient(top, #fefefe 0%, #f8f8f8 59%, #f3f3f3 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(59%,#f8f8f8), color-stop(100%,#f3f3f3));
-  background: -webkit-linear-gradient(top, #fefefe 0%,#f8f8f8 59%,#f3f3f3 100%);
-  background: -o-linear-gradient(top, #fefefe 0%,#f8f8f8 59%,#f3f3f3 100%);
-  background: -ms-linear-gradient(top, #fefefe 0%,#f8f8f8 59%,#f3f3f3 100%);
-  background: linear-gradient(to bottom, #fefefe 0%,#f8f8f8 59%,#f3f3f3 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#f3f3f3',GradientType=0 );
   border-radius: 25px;
 }
 
@@ -43,18 +36,19 @@ body {
 .nav >li > .navbar-btn {
   height: 36px;
   width: 42px;
-  background-color: #fff;
+  background: #f8f8f8;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, .3);
+  border: none;
 }
 
 .nav >li.open > .navbar-btn {
   background: #DCDC1A;
-  box-shadow: none;
+  border: none;
 }
 
 .nav > li > .category {
   width: 80px;
   padding: 7px 5px 0;
-  box-shadow: none;
 }
 
 .navbar-brand {

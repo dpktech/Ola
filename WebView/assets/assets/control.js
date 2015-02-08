@@ -49,60 +49,25 @@
 
 (function(){
   return ola = {
-
     initializeMap: function() {
       ola.element.style.height = window.innerHeight - 51;
       ola.element.style.width = window.innerWidth;
 
-      var placeMyLocation = function (controlDiv, map) {
-        // Set CSS for the control border
-        var controlUI = document.createElement('div');
-        controlUI.setAttribute("class", "btn");
-        controlUI.style.background = '#f8f8f8';
-        controlUI.style.borderRadius = '25px';
-        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-        controlUI.style.cursor = 'pointer';
-        controlUI.style.marginBottom = '25px';
-        controlUI.style.marginLeft = '-60px';
-        controlUI.style.width = '40px';
-        controlUI.style.height = '40px';
-        controlUI.title = 'Click to recenter the map';
-  //    controlUI.style.backgroundImage = "url('file:///android_asset/assets/img/location.png')";
-        controlDiv.appendChild(controlUI);
-        // Set CSS for the control interior
-        var controlLocationImage =  document.createElement('img');
-        controlLocationImage.src = "file:///android_asset/assets/img/location.png";
-        controlLocationImage.style.width = '32px';
-        controlLocationImage.style.height = '32px';
-        controlLocationImage.style.marginTop = "-3px";
-        controlLocationImage.style.marginLeft = "-9px";
-        controlUI.appendChild(controlLocationImage);
-        google.maps.event.addDomListener(controlUI, 'click', function() {
-            navigator.geolocation.getCurrentPosition(function(position) {
-              var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-              map.setCenter(pos);
-              map.setZoom(17);
-            });
-        });
+      var mapOptions = {
+        zoom: 17,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        mapTypeControl: false,
+        overviewMapControl: false,
+        zoomControl: false,
+        draggable: true,
+        streetViewControl: false,
+        scaleControl: false,
+        panControl: false
       };
-
+      var map = new google.maps.Map(ola.element, mapOptions);
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
           var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-          var mapOptions = {
-            zoom: 17,
-            center: pos,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            mapTypeControl: false,
-            overviewMapControl: false,
-            zoomControl: false,
-            draggable: true,
-            streetViewControl: false,
-            scaleControl: false,
-            panControl: false
-          };
-          var map = new google.maps.Map(ola.element, mapOptions);
-
           var marker = new google.maps.Marker({
             position: pos,
             map: map,
@@ -112,17 +77,10 @@
           });
           marker.bindTo('position', map, 'center');
           map.setCenter(pos);
-          var centerControlDiv = document.createElement('div');
-          var centerControl = new placeMyLocation(centerControlDiv, map);
-          centerControlDiv.index = 1;
-          console.log(centerControlDiv);
-          map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(centerControlDiv);
           olaApi.getRandomLatLang(position.coords.latitude, position.coords.longitude, map, true);
         }, function() {
           ola.handleNoGeolocation(true);
         });
-
-
       } else {
         // Browser doesn't support Geolocation
         ola.handleNoGeolocation(false);
@@ -138,28 +96,9 @@
 google.maps.event.addDomListener(window, 'load', ola.initializeMap);
 
 
-
 $(document).ready(function(){
    $(".navbar-btn.settings").bind('click', function(event){
      event.preventDefault();
      $("#settings-modal").modal("show");
-   });
-
-   $(".modal .signin").bind('click', function(event){
-     event.preventDefault();
-     var resp = Android.login();
-     Android.showToast("Welcome "+JSON.parse(resp).name);
-     $("#settings-modal").modal("hide");
-     $(".modal .linkup").html( '<div class="checkbox"><label class="text-success"><h3>'+JSON.parse(resp).name+'</h3></label>');
-   });
-
-   $(".modal .signup").bind('click', function(event){
-     event.preventDefault();
-     $("#settings-modal").modal("hide");
-   });
-
-   $("ul#menu1 > li > a").unbind().bind("click", function(event){
-     event.preventDefault();
-     $('.category.btn').html($(this).text() + '<span class="caret"></span>');
    });
 });
