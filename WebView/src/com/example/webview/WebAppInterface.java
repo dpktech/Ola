@@ -99,7 +99,7 @@ public class WebAppInterface {
 		allotedCabObj.put("duration", "5 mins");
 
 		objBooking.put("alloted_cab_info",allotedCabObj);
-		jsonObj.put("boooking",objBooking);
+		jsonObj.put("booking",objBooking);
 
 		return jsonObj.toString();
 		}

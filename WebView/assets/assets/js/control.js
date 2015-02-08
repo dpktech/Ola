@@ -125,7 +125,6 @@
           var centerControlDiv = document.createElement('div');
           var centerControl = new placeMyLocation(centerControlDiv, map);
           centerControlDiv.index = 1;
-          console.log(centerControlDiv);
           map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(centerControlDiv);
           olaApi.getRandomLatLang(position.coords.latitude, position.coords.longitude, map, true);
         }, function() {
@@ -142,7 +141,66 @@
       var content =  (errorFlag)? 'The Geolocation service failed. Please Enable location service.' : 'Error: Your browser doesn\'t support geolocation.';
       ola.element.innerHTML('<h1 style="margin-top: 15%;"><center>'+content+'</center></h1>');
     },
-    element: document.getElementById('map-canvas')
+    element: document.getElementById('map-canvas'),
+    showFullRoute: function(markers){
+        var map = new google.maps.Map(ola.element, {
+                zoom: 17,
+	            mapTypeId: google.maps.MapTypeId.ROADMAP,
+	            mapTypeControl: false,
+	            overviewMapControl: false,
+	            zoomControl: false,
+	            draggable: false,
+	            streetViewControl: false,
+	            scaleControl: false,
+	            panControl: false
+            });
+        var lat_lng = [];
+        var latlngbounds = new google.maps.LatLngBounds();
+        for (i = 0; i < markers.length; i++) {
+            var data = markers[i]
+            var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+            lat_lng.push(myLatlng);
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+            });
+            latlngbounds.extend(marker.position);
+        }
+        map.setCenter(latlngbounds.getCenter());
+        map.fitBounds(latlngbounds);
+ 
+        //***********ROUTING****************//
+ 
+        //Initialize the Path Array
+        var path = new google.maps.MVCArray();
+ 
+        //Initialize the Direction Service
+        var service = new google.maps.DirectionsService();
+ 
+        //Set the Path Stroke Color
+        var poly = new google.maps.Polyline({ map: map, strokeColor: '#4986E7' });
+ 
+        //Loop and Draw Path Route between the Points on MAP
+        for (var i = 0; i < lat_lng.length; i++) {
+            if ((i + 1) < lat_lng.length) {
+                var src = lat_lng[i];
+                var des = lat_lng[i + 1];
+                path.push(src);
+                poly.setPath(path);
+                service.route({
+                    origin: src,
+                    destination: des,
+                    travelMode: google.maps.DirectionsTravelMode.DRIVING
+                }, function (result, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
+                        for (var i = 0, len = result.routes[0].overview_path.length; i < len; i++) {
+                            path.push(result.routes[0].overview_path[i]);
+                        }
+                    }
+                });
+            }
+        }
+    }
   };
 })();
 google.maps.event.addDomListener(window, 'load', ola.initializeMap);
@@ -157,9 +215,22 @@ $(document).ready(function(){
 
    $("#doABook").bind('click', function(event){
      event.preventDefault();
-     var bookingDeatils = JSON.parse(Android.doABooking()).booking.alloted_cab_info;
+     Android.showToast("We are booking your cab.");
+     var bookingDeatils = JSON.parse(Android.doAbooking(),true).booking.alloted_cab_info;
      $("#book-modal .details").html("He is Mr. "+bookingDeatils.driver_name+". His driving a "+bookingDeatils.color+" colored "+bookingDeatils.car_model+" and he will contact you from this contact number (Ph. "+bookingDeatils.driver_mobile+"). Car Regd. Number is "+bookingDeatils.license_number+" & will be reaching you within "+ bookingDeatils.duration +".");
-     $("#book-modal #trackDriver").attr("value", "{lat:"+bookingDeatils.lat+", lng: "+bookingDeatils.lng+"}");
+     $("#book-modal #trackDriver").attr("value", "{lat:"+bookingDeatils.lat+", lng: "+bookingDeatils.lng+"}").bind('click', function(){
+        var latlng = JSON.parse($(this).val());
+        console.log(latlng);
+        if (navigator.geolocation) {
+	        navigator.geolocation.getCurrentPosition(function(position) {
+	           var arr = [];
+	           arr.push(latlng);
+	           arr.push({lat: position.coords.latitude, lng: position.coords.langitude});
+	           olaApp.showFullRoute(arr);
+	           $("#book-modal").modal("hide");
+	        });
+	    }            
+     });
      $("#book-modal").modal("show");
    });
 
