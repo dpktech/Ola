@@ -72,8 +72,8 @@
         controlUI.style.borderRadius = '25px';
         controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
         controlUI.style.cursor = 'pointer';
-        controlUI.style.marginBottom = '25px';
-        controlUI.style.marginLeft = '-60px';
+        controlUI.style.marginBottom = '32px';
+        controlUI.style.marginLeft = '-50px';
         controlUI.style.width = '40px';
         controlUI.style.height = '40px';
         controlUI.title = 'Click to recenter the map';
@@ -153,6 +153,14 @@ $(document).ready(function(){
    $(".navbar-btn.settings").bind('click', function(event){
      event.preventDefault();
      $("#settings-modal").modal("show");
+   });
+
+   $("#doABook").bind('click', function(event){
+     event.preventDefault();
+     var bookingDeatils = JSON.parse(Android.doABooking()).booking.alloted_cab_info;
+     $("#book-modal .details").html("He is Mr. "+bookingDeatils.driver_name+". His driving a "+bookingDeatils.color+" colored "+bookingDeatils.car_model+" and he will contact you from this contact number (Ph. "+bookingDeatils.driver_mobile+"). Car Regd. Number is "+bookingDeatils.license_number+" & will be reaching you within "+ bookingDeatils.duration +".");
+     $("#book-modal #trackDriver").attr("value", "{lat:"+bookingDeatils.lat+", lng: "+bookingDeatils.lng+"}");
+     $("#book-modal").modal("show");
    });
 
    $(".modal .signin").bind('click', function(event){

@@ -10,7 +10,7 @@ html { height: 100% }
   position: absolute;
   left: 0;
   top: 0px;
-  bottom: -20px;
+  bottom: -25px;
   right: -1px;
   overflow: hidden;
   margin: 0;
@@ -33,6 +33,30 @@ body {
   background-position: center center;
   background-size: 28px 28px;
 }
+
+#doABook {
+  bottom: 6px;
+  left: 75px;
+  position: absolute;
+  z-index: 1000;
+}
+#doABook .btn {
+  background: url("file:///android_asset/assets/img/book.png") no-repeat scroll 12px center / 30px 20px #f8f8f8;
+  border: medium none;
+  border-radius: 30px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  height: 42px;
+  color: #000;
+  line-height: 28px;
+  padding-left: 45px;
+  font-size: medium;
+  font-weight: 400;
+}
+
+#doABook .btn:hover {
+  background-color: #DCDC1A;
+}
+
 .nav >li > .navbar-btn {
   height: 36px;
   width: 42px;

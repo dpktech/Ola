@@ -31,15 +31,11 @@
             </li>
           </ul>
         </div>
-
       </div>
     </header>
     <div id="map-canvas"></div>
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="col-sm-12">
-        </div>
-      </div>
+    <div class="affix" id="doABook">
+      <span class="btn btn-success">Book Now</span>
     </div>
     <div class="modal fade" id="settings-modal">
       <div class="modal-dialog">
@@ -62,6 +58,25 @@
                 </label>
               </div>
             </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="book-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">Booking Details</h4>
+          </div>
+          <div class="modal-body">
+            <p>Be patient. We have just booked your ola, and the ola driver is on
+            his way to contact and reach you. You might want to address his details.
+            Here you go.</p>
+            <p class="details"></p>
+            <p>If you want to track him we can take you to reach him through <button class="btn btn-sm btn-success" id="trackDriver">map</button>.</p>
           </div>
         </div>
       </div>
