@@ -1,5 +1,6 @@
 (function(){
   return olaApi = {
+    categoryArray: ['auto', 'sedan', 'prime', 'mini'],
     randomDecimal: function(){
       return (Math.random() * (0.120 - 0.0200) + 0.0200).toFixed(5)/100;
     },
@@ -7,7 +8,7 @@
       var randomDecimal = olaApi.randomDecimal(),
           newLat = lat + (a ? randomDecimal: -(randomDecimal)),
           newLang = lang + (a ? -(randomDecimal): randomDecimal),
-          arr = ['auto', 'sedan', 'prime', 'mini'],
+          arr = olaApi.categoryArray,
           key = Math.round(Math.random()*4),
           randomCategory = arr[key];
       olaApi.locationOfCab[key] = {
@@ -37,6 +38,15 @@
               map: map,
               icon: 'file:///android_asset/assets/img/'+locations.category+'.png',
             });
+            var infowindow = new google.maps.InfoWindow({
+                content: locations.eta,
+                maxWidth: 40,
+                close: false
+            });
+            google.maps.event.addListener( olaApi.locationOfCabMap[i], 'click', function() {
+              infowindow.open(map, olaApi.locationOfCabMap[i]);
+            });
+            infowindow.open(map, olaApi.locationOfCabMap[i]);
           }
         }
         olaApi.getRandomLatLang(obj.lat, obj.lang, map, !a);
@@ -160,6 +170,11 @@ $(document).ready(function(){
 
    $("ul#menu1 > li > a").unbind().bind("click", function(event){
      event.preventDefault();
+     if ($(this).attr("value") !== 'all') {
+        olaApi.categoryArray = [$(this).attr("value"), $(this).attr("value"), $(this).attr("value"), $(this).attr("value")];
+     } else {
+        olaApi.categoryArray = ['auto', 'sedan', 'prime', 'mini'];
+     }
      $('.category.btn').html($(this).text() + '<span class="caret"></span>');
    });
 });
