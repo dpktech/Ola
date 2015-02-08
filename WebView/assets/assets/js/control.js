@@ -59,7 +59,6 @@
 
 (function(){
   return ola = {
-
     initializeMap: function() {
       ola.element.style.height = window.innerHeight - 51;
       ola.element.style.width = window.innerWidth;
@@ -77,8 +76,8 @@
         controlUI.style.width = '40px';
         controlUI.style.height = '40px';
         controlUI.title = 'Click to recenter the map';
-  //    controlUI.style.backgroundImage = "url('file:///android_asset/assets/img/location.png')";
         controlDiv.appendChild(controlUI);
+
         // Set CSS for the control interior
         var controlLocationImage =  document.createElement('img');
         controlLocationImage.src = "file:///android_asset/assets/img/location.png";
@@ -143,8 +142,9 @@
     },
     element: document.getElementById('map-canvas'),
     showFullRoute: function(markers){
+        ola.element.innerHTML = '';
         var map = new google.maps.Map(ola.element, {
-                zoom: 17,
+              zoom: 17,
 	            mapTypeId: google.maps.MapTypeId.ROADMAP,
 	            mapTypeControl: false,
 	            overviewMapControl: false,
@@ -157,29 +157,24 @@
         var lat_lng = [];
         var latlngbounds = new google.maps.LatLngBounds();
         for (i = 0; i < markers.length; i++) {
-            var data = markers[i]
+            var data = markers[i];
             var myLatlng = new google.maps.LatLng(data.lat, data.lng);
             lat_lng.push(myLatlng);
             var marker = new google.maps.Marker({
                 position: myLatlng,
-                map: map,
+                map: map
             });
             latlngbounds.extend(marker.position);
         }
-        map.setCenter(latlngbounds.getCenter());
+        map.setCenter(lat_lng[1]);
         map.fitBounds(latlngbounds);
- 
         //***********ROUTING****************//
- 
         //Initialize the Path Array
         var path = new google.maps.MVCArray();
- 
         //Initialize the Direction Service
         var service = new google.maps.DirectionsService();
- 
         //Set the Path Stroke Color
-        var poly = new google.maps.Polyline({ map: map, strokeColor: '#4986E7' });
- 
+        var poly = new google.maps.Polyline({ map: map, strokeColor: '#0088cc' });
         //Loop and Draw Path Route between the Points on MAP
         for (var i = 0; i < lat_lng.length; i++) {
             if ((i + 1) < lat_lng.length) {
@@ -218,18 +213,19 @@ $(document).ready(function(){
      Android.showToast("We are booking your cab.");
      var bookingDeatils = JSON.parse(Android.doAbooking(),true).booking.alloted_cab_info;
      $("#book-modal .details").html("He is Mr. "+bookingDeatils.driver_name+". His driving a "+bookingDeatils.color+" colored "+bookingDeatils.car_model+" and he will contact you from this contact number (Ph. "+bookingDeatils.driver_mobile+"). Car Regd. Number is "+bookingDeatils.license_number+" & will be reaching you within "+ bookingDeatils.duration +".");
-     $("#book-modal #trackDriver").attr("value", "{lat:"+bookingDeatils.lat+", lng: "+bookingDeatils.lng+"}").bind('click', function(){
+     $("#book-modal #trackDriver")
+        .attr("value", "{lat:"+bookingDeatils.lat+", lng: "+bookingDeatils.lng+"}")
+        .bind('click', function(){
         var latlng = JSON.parse($(this).val());
-        console.log(latlng);
         if (navigator.geolocation) {
 	        navigator.geolocation.getCurrentPosition(function(position) {
 	           var arr = [];
 	           arr.push(latlng);
-	           arr.push({lat: position.coords.latitude, lng: position.coords.langitude});
-	           olaApp.showFullRoute(arr);
+	           arr.push({lat: position.coords.latitude, lng: position.coords.longitude});
 	           $("#book-modal").modal("hide");
+	           //ola.showFullRoute(arr);
 	        });
-	    }            
+	    }
      });
      $("#book-modal").modal("show");
    });
